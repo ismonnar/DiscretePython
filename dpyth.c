@@ -2,95 +2,91 @@
 #include <Python.h>
 #include <stdlib.h>
 
-/**
-Определение функций
-*/
 
-int Factorial(int n) /*Считает факториал числа n*/
+int Factorial(int n)
 {
-	if (n < 0) /*Возвращает -1, если аргумент неправильный*/
+	if (n < 0)
 		return -1;
-	if ((n==0)||(n==1)) /*Возвращает 1, если аргумент равен 0 или 1*/
+	if ((n==0)||(n==1))
 		return 1;
 	return n*Factorial(n-1);
 }
 
-int Factorial2(int n) /*Считает двойной факториал числа n*/
+int Factorial2(int n)
 {
-	if (n < 0) /*Возвращает -1, если аргумент неправильный*/
+	if (n < 0)
 		return -1;
-	if ((n==0)||(n==1)) /*Возвращает 1, если аргумент равен 0 или 1*/
+	if ((n==0)||(n==1))
 		return 1;
 	return n*Factorial2(n-2);
 }
 
-int Binomial(int n, int k) /*Считает число сочетаний из n по k*/
+int Binomial(int n, int k)
 {
-	if ((n<0)||(k<0)) /*Возвращает -1, если аргумент неправильный*/
+	if ((n<0)||(k<0))
 		return -1;
 	return Factorial(n)/(Factorial(k)*Factorial(n-k));
 } 
 
-double Stirling(int n) /*Считает приближение факториала числа n по формуле Стирлинга*/
+double Stirling(int n)
 {
-	if (n < 0) /*Возвращает -1, если аргумент неправильный*/
+	if (n < 0)
 		return -1;
-	if ((n==0)||(n==1)) /*Возвращает 1, если аргумент равен 0 или 1*/
+	if ((n==0)||(n==1))
 		return 1;
 	return sqrt(2*3.1415927*n)*exp(n*log(n)-n);
 }
 
-int Fibonacci(int n) /*Считает n-ое число Фибоначчи*/
+int Fibonacci(int n)
 {
-	if (n < 1) /*Возвращает -1, если аргумент неправильный*/
+	if (n < 1)
 		return -1;
 
-	if ((n == 1)||(n == 2)) /*Первые два элемента последовательности Фибоначчи*/
+	if ((n == 1)||(n == 2))
 		return 1;
 
-	int a, b, c, i; /*Объявление переменных*/
+	int a, b, c, i;
 	
-	a = 1; /*Инициализация первых элементов*/
+	a = 1;
 	b = 1;
 	
-	for (i = 3; i <= n; i++) /*Основной цикл*/
+	for (i = 3; i <= n; i++)
 	{
-		c = a + b; /*Вычисляем новый элемент последовательности*/
-		a = b; /*Присваиваем текущий элемент последовательности переменной a*/
-		b = c; /*Присваиваем новый элемент перемнной b*/
+		c = a + b;
+		a = b;
+		b = c;
 	}
 	
-	return b; /*Возвращаем последний вычисленный элемент последовательности*/
-}
+	return b;
 
-int PrimeQ(int n) /*Проверяет целое число на простоту*/
+int PrimeQ(int n)
 {
-	if (n < 2) /*Простые числа начинаются с двойки*/
+	if (n < 2)
 		return 0;
-	int i, s; /*Объявление переменных*/
+	int i, s;
 
-	s = round(sqrt(n)) + 1; /*sqrt*/
+	s = round(sqrt(n)) + 1;
 	
 	for (i = 2; i <= s; i++)
 		if (n % i == 0)
-			return 0; /*Возвращаем 0, если нашли делитель*/
+			return 0;
 	return 1; 
 }
 
-int Prime(int n) /*Возвращет n-е простое число*/
+int Prime(int n)
 {
-	if (n < 1) /*Возвращает -1, если аргумент неправильный*/
+	if (n < 1)
 		return -1;
 
-	int *array; /*Объявление массива целых чисел*/
-	int i, j, k; /*Объявление переменных*/
+	int *array;
+	int i, j, k;
 
-	array = malloc(sizeof(int) * n * n); /*Массив целых чисел длины n^2*/
+	array = malloc(sizeof(int) * n * n);
 
-	for (i = 0; i < n*n; i++) /*Заполняем массив единицами*/
+	for (i = 0; i < n*n; i++)
 		array[i] = 1;
 
-	for (i = 2, k = 1; k <= n; i++) /*решето Эратосфена*/
+	for (i = 2, k = 1; k <= n; i++)
 		if (array[i] != 0)
 		{
 			k++;
@@ -98,10 +94,10 @@ int Prime(int n) /*Возвращет n-е простое число*/
 				array[j] = 0;
 		}
 
-	return i - 1; /*Возвращаем нужное простое число*/
+	return i - 1;
 }
 
-int PowerMod(long a, long n, long m) /*Возводит в степень по модулю m*/
+int PowerMod(long a, long n, long m)
 {
 	if (n == 1)
 		return a % m;
@@ -114,7 +110,7 @@ int PowerMod(long a, long n, long m) /*Возводит в степень по �
 	}
 }
 
-int DiscreteLog(long a, long b, long m) /*Логарифмирование в кольце вычетов*/
+int DiscreteLog(long a, long b, long m)
 {
 	int c = a;
 	int n = 1;
@@ -152,15 +148,15 @@ int Inverse(long a, long m)
     return olds % m;
 }
 
-long* FactorInteger(long integer) /*Каноническое разложение целого числа*/
+long* FactorInteger(long integer)
 {
-	long d, i, j, n, p, s; /*объявление переменных*/
+	long d, i, j, n, p, s;
 	long *divisors;
 
 	n = integer;
-	s = integer; /*size, т.е. размер массива целых чисел*/
-
-	divisors = malloc(sizeof(long) * 200); /*Массив простых делителей*/
+	s = integer;
+	
+	divisors = malloc(sizeof(long) * 200);
 
 	for (i = 2, j = 0; i <= s; i++) 
 		if (n % i == 0) 
@@ -168,139 +164,136 @@ long* FactorInteger(long integer) /*Каноническое разложени�
 			p = i;
 			d = 0;
 			do {
-				n /= p; /*делим n на делитель p*/
-				d += 1; /*увеличиваем степень делителя p на единицу*/
+				n /= p;
+				d += 1;
 			} while (n % p == 0);
-			divisors[j++] = p; /*добавляем делитель в список делителей*/
-			divisors[j++] = d; /*добавляем степень делителя в список делителей*/
+			divisors[j++] = p;
+			divisors[j++] = d;
 		}
 	divisors[j] = 0;
 	return divisors;
 }
 
-/**
-Определение объектов Python
-*/
 
 static PyObject* c_factorial(PyObject* self, PyObject* args)
 {
-	int n; /*Объявление переменной*/
+	int n;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("i", Factorial(n)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Factorial(n));
 }
 
 static PyObject* c_factorial2(PyObject* self, PyObject* args)
 {
-	int n; /*Объявление переменной*/
+	int n;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("i", Factorial2(n)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Factorial2(n));
 }
 
 static PyObject* c_binomial(PyObject* self, PyObject* args)
 {
-	int n, k; /*Объявление переменной*/
+	int n, k;
 
-	if (!PyArg_ParseTuple(args, "ii", &n, &k)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "ii", &n, &k))
 		return NULL;
 
-	return Py_BuildValue("i", Binomial(n, k)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Binomial(n, k));
 }
 
 static PyObject* c_stirling(PyObject* self, PyObject* args)
 {
 	int n; /*Объявление переменной*/
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("d", Stirling(n)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("d", Stirling(n));
 }
 
 static PyObject* c_fibonacci(PyObject* self, PyObject* args)
 {
-	int n; /*Объявление переменной*/
+	int n;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("i", Fibonacci(n)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Fibonacci(n));
 }
 
 static PyObject* c_is_prime(PyObject* self, PyObject* args)
 {
-	int n; /*Объявление переменной*/
+	int n;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("O", PrimeQ(n) ? Py_True : Py_False); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("O", PrimeQ(n) ? Py_True : Py_False);
 }
 
 static PyObject* c_prime(PyObject* self, PyObject* args)
 {
-	int n; /*Объявление переменной*/
+	int n;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	return Py_BuildValue("i", Prime(n)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Prime(n));
 }
 
 static PyObject* c_power_mod(PyObject* self, PyObject* args)
 {
-	long a, n, m; /*Объявление переменных*/
+	long a, n, m;
 
-	if (!PyArg_ParseTuple(args, "iii", &a, &n, &m)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "iii", &a, &n, &m))
 		return NULL;
 
-	return Py_BuildValue("i", PowerMod(a, n, m)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", PowerMod(a, n, m));
 }
 
 static PyObject* c_discrete_log(PyObject* self, PyObject* args)
 {
-	long a, b, m; /*Объявление переменных*/
+	long a, b, m;
 
-	if (!PyArg_ParseTuple(args, "iii", &a, &b, &m)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "iii", &a, &b, &m))
 		return NULL;
 
-	return Py_BuildValue("i", DiscreteLog(a, b, m)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", DiscreteLog(a, b, m));
 }
 
 static PyObject* c_inverse(PyObject* self, PyObject* args)
 {
-	long a, m; /*Объявление переменных*/
+	long a, m;
 
-	if (!PyArg_ParseTuple(args, "ii", &a, &m)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "ii", &a, &m))
 		return NULL;
 
-	return Py_BuildValue("i", Inverse(a, m)); /*Возвращаем ответ с использованием функции Си*/
+	return Py_BuildValue("i", Inverse(a, m));
 }
 
 static PyObject* c_factor_integer(PyObject* self, PyObject* args)
 {
-	long n; /*Объявление переменной*/
-	long *d; /*Объявление переменной*/
+	long n;
+	long *d;
 
-	if (!PyArg_ParseTuple(args, "i", &n)) /*Исключение ошибки аргумента*/
+	if (!PyArg_ParseTuple(args, "i", &n))
 		return NULL;
 
-	d = FactorInteger(n); /*Вычисляем результат с использованием функции СИ*/
+	d = FactorInteger(n);
 
-	int i, l; /*Объявление переменных*/
+	int i, l;
 
-	for (l = 0; d[l]; l++) /*Вычисляем длину списка d*/
+	for (l = 0; d[l]; l++)
 		{}
 
-	PyObject* p = PyList_New(l); /*Создаём новый список (объект Python)*/
+	PyObject* p = PyList_New(l);
 
 	for (i = 0; i < l; i++)
-		PyList_SetItem(p, i, PyLong_FromLong(d[i])); /*Заполняем созданный список элементами d*/
+		PyList_SetItem(p, i, PyLong_FromLong(d[i]));
 
 	return p; /*Возвращаем результат*/
 }
